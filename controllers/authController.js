@@ -4,43 +4,8 @@ const { sendEmail } = require('../utils/email');
 const authService = require('../services/authService');
 const AWS = require('aws-sdk');
 const multer = require('multer');
-const bcrypt = require('bcrypt');
+
 const path = require('path');
-
-// exports.registerUser = async (req, res, next) => {
-//   try {
-//     const { name, email, password } = req.body;
-
-//     // Check if name (formerly username) is provided
-//     if (!name) {
-//       return res.status(400).json({ status: false, message: 'Name is required' });
-//     }
-
-//     // Check if email already exists
-//     const dbUser =  await User.findOne({ email: email });
-//     if (dbUser) {
-//       return res.status(400).json({ status: false, message: 'Email already exists!' });
-//     }
-
-//     const user = await User.create({ name, email, password });
-
-//     const token = generateToken(user.id);
-
-//     res.status(200).json({
-//       status: true,
-//       message: "User created successfully.",
-//       data: { name: user.name, email: user.email, token },
-//     });
-//   } catch (err) {
-//     if (err.code === 11000) {
-//       console.log('Request body:', req.body);
-
-
-//       return res.status(400).json({ status: false, message: 'Duplicate field value entered' });
-//     }
-//     next(err);
-//   }
-// };
 
 
 // Configure AWS S3 (or your preferred storage service)
@@ -87,13 +52,9 @@ exports.registerUser = async (req, res, next) => {
       const uploadResult = await s3.upload(params).promise();
       imageUrl = uploadResult.Location; // URL of the uploaded image
     }
+    // Create user
+    const user = await User.create({ name, email, password: password, image: imageUrl });
 
-    // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-console.log('Hashed Password:', hashedPassword);
-    // Create user with hashed password
-    const user = await User.create({ name, email, password: hashedPassword, image: imageUrl });
-console.log('Stored Hashed Password:', user.password);
     const token = generateToken(user.id);
 
     res.status(200).json({
@@ -125,7 +86,7 @@ exports.loginUser = async (req, res, next) => {
       return res.status(200).json({ status: false, message: 'User Not Found!' });
     }
     // Compare the provided password with the hashed password in the database
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = password ===  user.password;
     if (!isMatch) {
       return res.status(200).json({ status: false, message: 'Wrong Password!' });
     }
