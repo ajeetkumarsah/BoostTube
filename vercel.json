@@ -12,6 +12,6 @@
       "dest": "/server.js"
     }
   ], "env": {
-    "NODE_VERSION": "14.x"
+    "NODE_VERSION": "20.x"
   }
 }
