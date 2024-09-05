@@ -2,15 +2,19 @@
   "name": "boosttube-backend",
   "version": "1.0.0",
   "main": "server.js",
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "npm rebuild bcrypt --build-from-source"
   },
+  "engines": {
+  "node": "20.x"
+},
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@vercel/node": "^3.2.11",
     "aws-sdk": "^2.1688.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
