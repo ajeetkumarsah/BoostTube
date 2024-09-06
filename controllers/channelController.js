@@ -2,7 +2,7 @@ const Channel = require('../models/Channel');
 
 exports.getChannels = async (req, res, next) => {
   try {
-    const channels = await Channel.find({ user: req.user.id });
+    const channels = await Channel.find();
     res.status(200).json({ success: true, data: channels });
   } catch (err) {
     next(err);
