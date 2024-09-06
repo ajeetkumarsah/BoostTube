@@ -25,3 +25,11 @@ exports.getUsers = async (req, res, next) => {
     next(error);
   }
 };
+exports.getUserById = async (req, res, next) => {
+  try {
+    const user = await userService.getUsers({user:req.user.id});
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
