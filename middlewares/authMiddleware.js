@@ -13,7 +13,7 @@ exports.protect = async (req, res, next) => {
   }
 
   if (!token) {
-    return res.status(401).json({ success: false, error: 'Not authorized' });
+    return res.status(401).json({ status: false, error: 'Not authorized' });
   }
 
   try {
@@ -23,6 +23,6 @@ exports.protect = async (req, res, next) => {
 
     next();
   } catch (err) {
-    return res.status(401).json({ success: false, error: 'Not authorized' });
+    return res.status(401).json({ status: false, error: 'Not authorized' });
   }
 };
