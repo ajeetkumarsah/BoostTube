@@ -6,6 +6,12 @@ const ChannelSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  username: {
+    type: String
+  },
+  image: {
+    type: String
+  },
   name: {
     type: String,
     required: [true, 'Please add a channel name'],

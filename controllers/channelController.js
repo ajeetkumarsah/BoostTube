@@ -12,7 +12,7 @@ exports.getChannels = async (req, res, next) => {
 exports.addChannel = async (req, res, next) => {
   try {
     const { name, url } = req.body;
-    const channel = await Channel.create({ user: req.user.id, name, url });
+    const channel = await Channel.create({ user: req.user.id,username:req.user.name,image:req.user.image, name, url });
     res.status(201).json({ success: true, data: channel });
   } catch (err) {
     next(err);
